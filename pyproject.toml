@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=60.0","wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "EvoSim"
+version = "0.1.0"
+description = "A package for simulating evolution via the use of genetic algorithms"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Jay Nash", email = "jnash1@conncoll.edu" }]
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

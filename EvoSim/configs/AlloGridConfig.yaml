@@ -1,0 +1,44 @@
+# example configuration file for simulating allopatric speciation in a grid environment
+
+# general parameters
+general:
+  name: AllopatricGridSimulation
+  seed: 42
+
+# controller parameters
+controller:
+  type: PriorityGridController
+  action_space: 5
+# environment parameters
+environment:
+  type: GridEnvironment
+  grid_size: [100, 100]
+  initial_population_density: 0.25
+  food_range: [1, 3]
+  formation_steps: 10_000
+  speciation_steps: 80_000
+  recombination_steps: 10_000
+
+# reproduction parameters
+reproduction:
+  type: PriorityControllerReproduction
+  mutation_rate: 0.03
+  crossover_rate: 1.0
+  max_population_size: 10000 # Maximum population if every grid square has an individual
+
+# reporter parameters
+reporter:
+  type: AllopatricGridReporter
+  report_interval: 100
+  output_directory: ./data/AllopatricGridSimulation
+  save_population: true # note: this will save the entire population at each report interval, which can be large (WIP)
+  live_reporting: true # WIP
+
+# visualization parameters (visualization is WIP and will be optional in the future)
+visualization:
+  type: GridVisualizer
+  grid_size: [100, 100]
+  display_interval: 100
+  save_frames: true # note: this will save frames to the output directory, which can be large
+  output_directory: ./data/AllopatricGridSimulation/frames
+
