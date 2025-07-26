@@ -1,3 +1,5 @@
+import os, sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))
 from EvoSim import Simulation, DefaultController
 
 sim = Simulation(size=(100,100),
