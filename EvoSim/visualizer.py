@@ -54,6 +54,7 @@ class GridVisualizer:
         """Display the animation window."""
         plt.show()
 
+
     def _init_axes(self):
         """Initialize the graphical window"""
         # Set the limits of the axes
@@ -85,7 +86,7 @@ class GridVisualizer:
         """Update the simulation"""
         if self.sim.extinct:  # Check if the population is extinct
             self.ax.set_title("Population extinct.")
-            return []
+            return
 
         # Advance one simulation step
         self.sim.step()
@@ -133,5 +134,3 @@ class GridVisualizer:
             self.sim.barrier_position,
         )
         self.ax.set_title(f"Step {self.sim.steps} - Speciation rate: {rate:.3f}")
-
-        return []
