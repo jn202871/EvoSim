@@ -4,8 +4,6 @@
 # Imports
 
 import numpy as np
-import os, sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))
 
 # First we create a grid environment, in this case a 100x100 grid.
 # We should eventually add capability to create different types of environments.

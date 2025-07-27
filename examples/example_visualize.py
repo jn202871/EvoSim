@@ -2,9 +2,6 @@
 Example script that runs a simulation and visualizes it in real-time.
 """
 
-import os, sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))
-
 from EvoSim import Simulation, DefaultController, GridVisualizer
 
 def main():
