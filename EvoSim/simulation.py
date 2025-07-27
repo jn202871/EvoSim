@@ -25,31 +25,51 @@ class Simulation:
             add_barrier(self.grid, self.size, self.barrier_orientation, self.barrier_position)
             self.has_barrier = True
 
-    def run(self, num_steps):
-        
-        for step in range(num_steps):
-            # Snapshot
-            snapshots = [(pos, self.grid[pos]['individual'])
-                         for pos in self.grid if self.grid[pos]['individual']]
-            for pos, ind in snapshots:
-                if self.grid[pos]['individual'] is not ind:
-                    continue
-                ind['age'] += 1
-                ind['energy'] -= np.sqrt(ind['age'])
-                new_pos = self.controller.act(ind, self.grid, pos)
-                if ind['energy'] <= 0 and self.grid[new_pos]['individual'] is ind:
-                    self.grid[new_pos]['individual'] = None
+    def step(self):
+        """Advance the simulation by a single time-step."""
+        # Current individuals in the simulation
+        snapshots = [(pos, self.grid[pos]['individual'])
+                     for pos in self.grid if self.grid[pos]['individual']]
+        for pos, ind in snapshots:
+            # Skip if individual moved or died
+            if self.grid[pos]['individual'] is not ind:
+                continue
+            # Ageing and passive energy loss
+            ind['age'] += 1
+            ind['energy'] -= np.sqrt(ind['age'])
+            # Let controller decide on an action
+            new_pos = self.controller.act(ind, self.grid, pos)
+            # Remove individual if it ran out of energy
+            if ind['energy'] <= 0 and self.grid[new_pos]['individual'] is ind:
+                self.grid[new_pos]['individual'] = None
 
-            # Add new food
-            for cell in self.grid:
-                if self.grid[cell]['food'] is None and np.random.rand() < 0.1:
-                    self.grid[cell]['food'] = np.random.randint(30, 50)
+        # Add new food randomly
+        for cell in self.grid:
+            if self.grid[cell]['food'] is None and np.random.rand() < 0.1:
+                self.grid[cell]['food'] = np.random.randint(30, 50)
 
-            self.steps += 1
+        self.steps += 1
 
+        # Notify logger after each step so that external tools such as visualizers can update
         if self.logger:
             self.logger.on_step(self.steps, self)
 
+    def run(self, num_steps):
+        """
+        Run the simulation for the specified number of steps
+        
+        Parameters:
+            num_steps: The number of steps to run the simulation for
+
+        Returns:
+            A tuple containing:
+                - A boolean indicating if the population is extinct
+                - The speciation rate
+        """
+        for _ in range(num_steps):  # Running the simulation for the specified number of steps
+            self.step()
+
+        # After running, determine population status and speciation rate
         individuals = [c for c in self.grid.values() if c['individual']]
         if len(individuals) == 0:
             self.extinct = True
@@ -58,4 +78,3 @@ class Simulation:
             return True, 0
         else:
             return False, check_speciation(self.grid, self.size, self.barrier_orientation, self.barrier_position)
-

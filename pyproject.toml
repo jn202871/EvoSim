@@ -9,7 +9,10 @@ description = "A package for simulating evolution via the use of genetic algorit
 readme = "README.md"
 license = { text = "MIT" }
 authors = [{ name = "Jay Nash", email = "jnash1@conncoll.edu" }]
-dependencies = []
+dependencies = [
+    "numpy>=1.23",
+    "matplotlib>=3.7"
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
