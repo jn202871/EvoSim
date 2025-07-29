@@ -3,7 +3,7 @@ EvoSim is a package developed to enable the simulation of various types of speci
 
 ## Example Usage
 EvoSim first creates a simulation of some size, with some initial population and food density. Then, we burn in the inital population for a number of steps before adding a barrier. After the barrier is added, EvoSim periodically checks if speciation has occured, and to what degree. A full simulation loop and speciation check can be seen below:
-'''python
+```python
 from EvoSim import Simulation, DefaultController
 
 sim = Simulation(size=(100,100),
@@ -23,11 +23,11 @@ while not speciated and not extinct:
         speciated = True
     individuals = [c for c in sim.grid.values() if c['individual']]
     print(f"Hybrid Rate: {hybrid_rate} Population Size: {len(individuals)}")
-'''
+```
 
 ## Visualization
 The internal simulation of EvoSim can be visualized via the following at any point:
-'''python
+```python
 vis = GridVisualizer(sim, interval=100, show_energy=True)
 vis.show()
-'''
+```
